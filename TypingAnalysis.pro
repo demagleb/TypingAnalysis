@@ -38,21 +38,25 @@ win32 {
   }
 
   win32-g++*{
-  DEFINES += \
+    DEFINES += \
       DISABLE_CUDA
   }
 
   win32-clang*{
-  DEFINES += \
+    DEFINES += \
       DISABLE_CUDA
   }
 }
 
 linux {
   linux-g++*{
+    DEFINES += \
+      DISABLE_CUDA
   }
 
   linux-clang*{
+      DEFINES += \
+        DISABLE_CUDA
   }
 }
 

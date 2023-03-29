@@ -1,8 +1,11 @@
 #ifndef NSAPPLICATION_NSKERNEL_CPLOTDATA_H
 #define NSAPPLICATION_NSKERNEL_CPLOTDATA_H
 
+#include <cstddef>
 #include <cstdint>
 #include <vector>
+
+using std::size_t;
 
 namespace NSApplication {
 namespace NSKernel {

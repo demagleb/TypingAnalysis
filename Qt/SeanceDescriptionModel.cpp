@@ -165,7 +165,7 @@ QVariant CSeanceDescriptionModel::get_regular_data(int row, int column) const {
     return QVariant();
   if (column == 0)
     return Data_[row].Text;
-  return Data_[row].Size;
+  return QVariant((qulonglong)Data_[row].Size);
 }
 
 QString CSeanceDescriptionModel::currentSeanceName() const {
