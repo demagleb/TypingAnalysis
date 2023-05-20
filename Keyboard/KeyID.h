@@ -12,6 +12,7 @@ struct CKeyIDEnum {
     // TO DO
     // Make continuous numeration
     // Add OEM_102 Key
+    Regular = 0x07,
     Backspace = 0x08,
     Tab = 0x09,
     Enter = 0x0d,

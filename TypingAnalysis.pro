@@ -56,7 +56,7 @@ linux {
   }
 
   linux-clang*{
-      DEFINES += \
+    DEFINES += \
       DISABLE_CUDA
   }
 }
@@ -97,6 +97,9 @@ win32-msvc*{
   for(var, $$list($$USED_BOOST_LIBS)) {
     LIBS += -l$$var
   }
+}
+linux {
+  DEFINES += _GLIBCXX_USE_CXX11_ABI=0
 }
 DEFINES += $$CONAN_DEFINES_BOOST
 
@@ -167,6 +170,9 @@ HEADERS += \
   Keyboard/KeyboardHandler.h \
   Keyboard/KeyboardListener.h \
   Keyboard/LabelMaker.h \
+  Keyboard/Linux/KeyIDMaker.h \
+  Keyboard/Linux/KeyPositionMaker.h \
+  Keyboard/Linux/x11includes.h \
   Keyboard/ListenerExceptionHandler.h \
   Keyboard/RawKeyEvent.h \
   Library/AnyObject/AnyMovable.h \
@@ -275,6 +281,8 @@ SOURCES += \
   Keyboard/KeyboardHandler.cpp \
   Keyboard/KeyboardListener.cpp \
   Keyboard/LabelMaker.cpp \
+  Keyboard/Linux/KeyIDMaker.cpp \
+  Keyboard/Linux/KeyPositionMaker.cpp \
   Keyboard/ListenerExceptionHandler.cpp \
   Keyboard/RawKeyEvent.cpp \
   Local/EngLocale.cpp \
@@ -357,11 +365,18 @@ macx {
 linux {
     HEADERS += \
     Compute/ParallelLin.h \
-    Keyboard/Linux/KeyboardListenerLin.h
+    Keyboard/Linux/KeyboardListenerLin.h \
+    Keyboard/Linux/KeysymMaker.h
 
     SOURCES += \
     Compute/ParallelLin.cpp \
-    Keyboard/Linux/KeyboardListenerLin.cpp
+    Keyboard/Linux/KeyboardListenerLin.cpp \
+    Keyboard/Linux/KeysymMaker.cpp
+
+    LIBS += -lX11 \
+    -lXi \
+    -lxcb \
+    -lxkbcommon
 }
 
 contains(DEFINES, KEYBOARD_HANDLER_DEBUG) {
@@ -457,6 +472,10 @@ contains(DEFINES, DISABLE_SIMD) {
     Compute/Math.cu
 
   win32 {
+    CUDA_SDK = $$(NVCUDASAMPLES_ROOT)
+    CUDA_DIR = $$(CUDA_PATH)
+  }
+  linux {
     CUDA_SDK = $$(NVCUDASAMPLES_ROOT)
     CUDA_DIR = $$(CUDA_PATH)
   }
