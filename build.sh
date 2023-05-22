@@ -1,4 +1,6 @@
 #!/bin/bash
+CPUCOUNT=$(grep -c   "^processor" /proc/cpuinfo)
+echo "This machine has ${CPUCOUNT} cpus, will use make -j${CPUCOUNT}"
 
 find_qt() {
     grep "\[rootpath_qt\]" ./conanbuildinfo.txt --after-context=1 | tail -1
@@ -8,25 +10,25 @@ build_debug() {
     # Debug
     mkdir -p build-debug
     cd build-debug
-    conan install  --build=missing '../conanfile.txt' -s compiler.libcxx=libstdc++ -s compiler.runtime=MT -e CC=clang -e CXX=clang++
+    conan install  --build=missing '../conanfile.txt'
     QT="$(find_qt)"
     QMAKE="${QT}/bin/qmake"
     echo "using ${QMAKE}"
     $QMAKE ../TypingAnalysis.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug && make qmake_all
-    make -j12 1> stdout-build.log 2> stderr-build.log
+    make -j${CPUCOUNT} 
 }
 
 build_release() {
     # Release
     mkdir -p build-release
     cd build-release
-    conan install  --build=missing '../conanfile.txt' -s compiler.libcxx=libstdc++ -s compiler.runtime=MT -e CC=clang -e CXX=clang++
+    conan install  --build=missing '../conanfile.txt'
     QT="$(find_qt)"
     QMAKE="${QT}/bin/qmake"
     echo "using ${QMAKE}"
     $QMAKE ../TypingAnalysis.pro -spec linux-g++ CONFIG+=qml_debug && make qmake_all
 
-    make -j12 1> stdout-build.log 2> stderr-build.log
+    make -j${CPUCOUNT}
 }
 
 debug=
