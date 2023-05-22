@@ -122,3 +122,51 @@ nmake install
 ### Known issues
 
 Thrust library is used to speed up the computations. As a result CUDA is not used in debug mode.
+
+
+### Linux
+
+#### Prerequisites
+
+- [Conan 1.59](https://conan.io/)
+
+#### Setup your Environment
+
+Install Conan 1.59. It is currently impossible to build the project with conan v2 because not all of the required recipes are compatible with conan v2. It is also worth setting the default profile. It can be easily done with:
+
+```console
+conan profile new default --detect
+```
+
+Possible profile:
+
+```
+[settings]
+os=Linux
+os_build=Linux
+arch=x86_64
+arch_build=x86_64
+compiler=gcc
+compiler.version=12
+compiler.libcxx=libstdc++
+build_type=Release
+[options]
+[conf]
+[build_requires]
+[env]
+```
+Make sure that ```compiler.libcxx=libstdc++```.
+
+#### Build 
+
+Run build script from the project folder
+
+Debug build:
+```console
+./build.sh -d 
+```
+
+Release build:
+```console
+./build.sh -r
+```
