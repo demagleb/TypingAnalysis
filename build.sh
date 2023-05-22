@@ -8,7 +8,7 @@ build_debug() {
     # Debug
     mkdir -p build-debug
     cd build-debug
-    conan install -s build_type=Debug --build=missing '../conanfile.txt' -s compiler.runtime=MT
+    conan install  --build=missing '../conanfile.txt' -s compiler.libcxx=libstdc++ -s compiler.runtime=MT -e CC=clang -e CXX=clang++
     QT="$(find_qt)"
     QMAKE="${QT}/bin/qmake"
     echo "using ${QMAKE}"
@@ -20,7 +20,7 @@ build_release() {
     # Release
     mkdir -p build-release
     cd build-release
-    conan install -s build_type=Release --build=missing '../conanfile.txt' -s compiler.runtime=MT
+    conan install  --build=missing '../conanfile.txt' -s compiler.libcxx=libstdc++ -s compiler.runtime=MT -e CC=clang -e CXX=clang++
     QT="$(find_qt)"
     QMAKE="${QT}/bin/qmake"
     echo "using ${QMAKE}"

@@ -52,10 +52,6 @@ CKeyboardListenerLinImpl::CKeyboardListenerLinImpl(
   XISetMask(X11EventMask_.mask, XI_KeyRelease);
 
   XISelectEvents(X11Display_, X11DefaultWindow, &X11EventMask_, 1);
-
-         // KeysymMaker_ = CKeysymMaker(XkbDesc_);
-         // TO DO
-         // Set killerPromise to a non-trivial one
   killerPromise.set_value(CKiller(X11Display_, MessageWindow_));
 
   connect(this, &CKeyboardListenerLinImpl::KeyPressing, KeyboardHandler,
@@ -121,7 +117,7 @@ int CKeyboardListenerLinImpl::handleKeyPress(
       getXIDeviceEvent(X11CurrentEventCookie);
   xkb_keysym_t keysym = KeysymMaker_.feedEvent(X11CurrentDeviceEvent);
   key_press.KeyText = makeTextFromKeysym(keysym);
-  key_press.KeyID = CKeyIDMaker::make(keysym, True);
+  key_press.KeyID = CKeyIDMaker::make(keysym);
   key_press.KeyPosition = getKeycode(X11CurrentDeviceEvent);
   key_press.Shifters = getShifters(X11CurrentDeviceEvent);
   key_press.KeyLabel = getLabel(keysym);
@@ -157,8 +153,8 @@ int CKeyboardListenerLinImpl::handleKeyRelease(
 
   XIDeviceEvent* X11CurrentDeviceEvent =
       getXIDeviceEvent(X11CurrentEventCookie);
-  xkb_keysym_t keysym = KeysymMaker_.feedEvent(X11CurrentDeviceEvent);
-  key_release.KeyID = CKeyIDMaker::make(keysym, False);
+  xkb_keysym_t keysym = KeysymMaker_.getPlainKeysym(X11CurrentDeviceEvent);
+  key_release.KeyID = CKeyIDMaker::make(keysym);
   key_release.KeyPosition = getKeycode(X11CurrentDeviceEvent);
   Q_EMIT KeyReleasing(key_release);
   return 0;

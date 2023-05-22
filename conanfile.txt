@@ -5,6 +5,5 @@ qwt/6.2.0
 
 [options]
 tbb:shared=False
-
 [generators]
 qmake

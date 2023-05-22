@@ -62,7 +62,7 @@ xkb_keysym_t CKeysymMaker::feedKeysym(xkb_keysym_t keysym) {
   auto XkbComposeFeedResult = xkb_compose_state_feed(XkbComposeState_, keysym);
   auto compose_status = xkb_compose_state_get_status(XkbComposeState_);
   isLastDead_ = 0;
-  if (XkbComposeFeedResult == XKB_COMPOSE_FEED_ACCEPTED) {
+  if (XkbComposeFeedResult == XKB_COMPOSE_FEED_ACCEPTED) { 
     isLastDead_ = (compose_status == XKB_COMPOSE_COMPOSING);
     switch (compose_status){
     case XKB_COMPOSE_COMPOSING:

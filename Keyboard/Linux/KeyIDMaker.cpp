@@ -6,10 +6,7 @@ namespace NSApplication {
 namespace NSKeyboard {
 namespace NSLinux {
 
-CKeyID CKeyIDMaker::make(int keysym, bool press) {
-  if (press) {
-    std::cout << std::hex <<"KeyId maker keysym: 0x" << keysym << std::endl;
-  }
+CKeyID CKeyIDMaker::make(int keysym) {
   switch (keysym) {
   case 0xff08:
     return CKeyIDEnum::Backspace;

@@ -11,7 +11,7 @@ namespace NSLinux {
 class CKeyIDMaker
 {
 public:
-  static CKeyID make(int keysym, bool press);
+  static CKeyID make(int keysym);
 };
 
 }
